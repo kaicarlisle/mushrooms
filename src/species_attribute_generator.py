@@ -16,10 +16,7 @@ class SpeciesGenerator:
 
     def _set_spore(self, spore_int):
         """Generate new spore (5 bytes) if not given"""
-        if spore_int is None:
-            return int.from_bytes(random.randbytes(5), "big")
-        else:
-            return spore_int
+        return spore_int or int.from_bytes(random.randbytes(5), "big")
 
     def _eval_string(self, string, attributes):
         """recursively evaluate a string value from the schema"""
@@ -30,8 +27,10 @@ class SpeciesGenerator:
             upper_limit = self._eval_string(parts[1], attributes)
             return round(self.rng.uniform(lower_limit, upper_limit), 3)
         if string.startswith("["):
-            options = string.lstrip("[").rstrip("]").replace(" ", "").split(',')
-            options_evaled = [self._eval_string(option, attributes) for option in options]
+            options = string.lstrip("[").rstrip("]").replace(" ", "").split(",")
+            options_evaled = [
+                self._eval_string(option, attributes) for option in options
+            ]
             return self.rng.choice(options_evaled)
         if string.startswith(":"):
             return attributes[string.lstrip(":")]
@@ -41,7 +40,7 @@ class SpeciesGenerator:
             evaled = eval(string.lstrip("!"))
         if string.startswith("#"):
             return eval(string.lstrip("#"))
-        
+
         # it's just a number or a name of another object in the schema
         try:
             return float(string)
@@ -50,12 +49,13 @@ class SpeciesGenerator:
         except ValueError:
             return string
 
-
     def generate_new_species(self, schema=SCHEMA):
         """Take the schema dict, and recursively generate a valid attributes dict."""
         attributes = {}
         for name, attribute in schema.items():
-            if (name.startswith("?") and bool(self.rng.getrandbits(1))) or not name.startswith("?"):
+            if (
+                name.startswith("?") and bool(self.rng.getrandbits(1))
+            ) or not name.startswith("?"):
                 cleaned_name = clean_name(name)
                 if isinstance(attribute, dict):
                     attributes[cleaned_name] = self.generate_new_species(attribute)
@@ -64,9 +64,14 @@ class SpeciesGenerator:
         return attributes
 
 
-
-if __name__ == '__main__':
-    species_generator = SpeciesGenerator(spore=760546252912)
+def gen_new_species(spore=None, output=True):
+    species_generator = SpeciesGenerator(spore)
     attributes = species_generator.generate_new_species()
-    print(species_generator.spore)
-    print(json.dumps(attributes, indent=4))
+    print(f"spore {species_generator.spore}")
+    if output:
+        print(json.dumps(attributes, indent=4))
+    return species_generator.spore, attributes
+
+
+if __name__ == "__main__":
+    gen_new_species()

@@ -15,46 +15,34 @@ SCHEMA = {
             "avg": "0..#MAX_STEM_LENGTH_AVG",
             "std": "0..:avg",
         },
-
         "thickness": {
             "avg": "0..#MAX_STEM_THICKNESS_AVG",
             "std": "0..:avg",
         },
-        
         "curviness": "0..1",
-
         "?skirt": {
             "probability": "0..1",
             "height": "0..1",
         },
-
-        "?spore_ring": {
-            "probability": "0..1",
-            "height": "0..1"
-        },
+        "?spore_ring": {"probability": "0..1", "height": "0..1"},
     },
-
     "growth_pattern": {
         "type": "[single, clump, cluster]",
-
         # all mushrooms from same base
-        "growth_pattern.type.clump": {
+        "type.clump": {
             "avg_count": "1..#MAX_GROWTH_PATTERN_CLUMP_AVG_COUNT",
             "std_count": "1..:avg_count",
         },
-
         # spread around
-        "growth_pattern.type.cluster": {
+        "type.cluster": {
             "avg_count": "1..#MAX_GROWTH_PATTERN_CLUSTER_AVG_COUNT",
             "std_count": "1..:avg_count",
             "avg_distance": "0.5..#MAX_GROWTH_PATTERN_CLUSTER_AVG_DISTANCE",
         },
     },
-
     "gills": {
         "type": "[fans, honeycomb]",
-
-        "gills.type.fans": {
+        "type.fans": {
             # 0 = attached at base of stem, 1 = attached at top of stem (inside cap)
             "attachment": "0..1",
             "density": "#GILLS_FANS_DENSITY_MIN..1",
@@ -64,12 +52,10 @@ SCHEMA = {
                 "count": "1..5",
                 # size difference between each level
                 "reduction_ratio": "0..0.99",
-            }, 
+            },
         },
-
-        "gills.type.honeycomb": {
+        "type.honeycomb": {
             "density": "#GILLS_HONEYCOMB_DENSITY_MIN..1",
-        }
-        
-    }
+        },
+    },
 }

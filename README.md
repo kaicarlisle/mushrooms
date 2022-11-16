@@ -7,7 +7,7 @@ Steps of this:
     (stem length, thickness, if there's a skirt, spore ring. Cap size, waviness, shape, colour. Gills straight or honeycomb or other, attachment pattern (if straight), density. Growth patterns - single, clusters, clumps etc)
 2. Generate new attributes (of a species) (spore ie seed the rng, store seed as spore)
 3. Use that species definition to grow new mushrooms
-3. Each attribute should have a generator class, that takes the attributes and generates a point cloud (or 3D info) from them
-4. Work out how to render the 3D information
-5. Add colours and textures and stuff, and additional attributes eg phosphorescence)
-6. Generate and set as desktop background on login or something, idk
+4. Each attribute should have a generator class, that takes the attributes and generates a point cloud (or 3D info) from them
+5. Work out how to render the 3D information
+6. Add colours and textures and stuff, and additional attributes eg phosphorescence)
+7. Generate and set as desktop background on login or something, idk
