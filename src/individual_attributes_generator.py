@@ -1,6 +1,8 @@
 import random
+import json
 
 from species_attribute_generator import gen_new_species
+from parts_generators import StemGenerator, GrowthPatternGenerator, GillsGenerator
 
 
 class MushroomGenerator:
@@ -8,22 +10,30 @@ class MushroomGenerator:
         self.spore = spore
         self.id = self._set_id(id)
         self.rng = random.Random(self.id)
+        self.parts = {}
+        self.part_generators = {
+            'stem': StemGenerator,
+            'growth_pattern': GrowthPatternGenerator,
+            'gills': GillsGenerator
+        }
 
     def _set_id(self, id_int):
         """Generate new mushroom id (5 bytes) if not given"""
         return id_int or int.from_bytes(random.randbytes(5), "big")
 
-    def _new_random_float(self, avg, std):
-        return self.rng.normalvariate(avg, std)
-
     def generate_new_mushroom(self, species_attributes):
         """Take a species attributes, generate the attributes of a new instance of that species"""
+        # use parts_generator to call the generator class for each part
+        for part, generator in self.part_generators.items():
+            self.parts[part] = generator(species_attributes[part], self.rng)()
+        return self.parts
 
 
 def gen_new_mushroom(spore=None, mushroom_id=None, output=True):
-    spore, species_attributes = gen_new_species(spore, output)
+    spore, species_attributes = gen_new_species(spore, output=False)
     mushroom_generator = MushroomGenerator(spore, mushroom_id)
     attributes = mushroom_generator.generate_new_mushroom(species_attributes)
+    print(f"id {mushroom_generator.id}")
     if output:
         print(json.dumps(attributes, indent=4))
     # to go to point generator

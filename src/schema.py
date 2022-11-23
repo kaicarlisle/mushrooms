@@ -3,40 +3,68 @@ Define how attributes should be generated
 a..b means a float value between a and b
 [a, b, c] means one of a, b, c
 :attr means the value generated for attr
-#val means the constant val
+#val means the constant val (defined in config.py)
 !func(p1, p2) means the values returned when calling the function func with params
 ?val means the value is optional
 """
 import random
 
+
+"""
+Working with dsd = 2 * standard deviation
+It's easier this way
+"""
+
 SCHEMA = {
     "stem": {
         "length": {
             "avg": "0..#MAX_STEM_LENGTH_AVG",
-            "std": "0..:avg",
+            "dsd": "0..:avg",
+            "min": "0",
+            "max": "#MAX_STEM_LENGTH",
         },
         "thickness": {
             "avg": "0..#MAX_STEM_THICKNESS_AVG",
-            "std": "0..:avg",
+            "dsd": "0..:avg",
+            "min": "0",
+            "max": "#MAX_STEM_THICKNESS",
         },
-        "curviness": "0..1",
+        "curviness": {
+            "avg": "0..1",
+            "dsd": "0..:avg",
+            "min": "0",
+            "max": "1",
+        },
         "?skirt": {
             "probability": "0..1",
-            "height": "0..1",
+            "height": {
+                "avg": "0..1",
+                "dsd": "0..:avg",
+                "min": "0",
+                "max": "1",
+            },
         },
-        "?spore_ring": {"probability": "0..1", "height": "0..1"},
+        "?spore_ring": {
+            "probability": "0..1", 
+            "height": {
+                "avg": "0..1",
+                "dsd": "0..:avg",
+                "min": "0",
+                "max": "1",
+            },
+        },
     },
     "growth_pattern": {
         "type": "[single, clump, cluster]",
         # all mushrooms from same base
         "type.clump": {
             "avg_count": "1..#MAX_GROWTH_PATTERN_CLUMP_AVG_COUNT",
-            "std_count": "1..:avg_count",
+            "dsd_count": "1..:avg_count",
         },
         # spread around
         "type.cluster": {
             "avg_count": "1..#MAX_GROWTH_PATTERN_CLUSTER_AVG_COUNT",
-            "std_count": "1..:avg_count",
+            "dsd_count": "1..:avg_count",
             "avg_distance": "0.5..#MAX_GROWTH_PATTERN_CLUSTER_AVG_DISTANCE",
         },
     },
