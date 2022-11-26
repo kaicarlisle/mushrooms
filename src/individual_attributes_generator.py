@@ -12,9 +12,9 @@ class MushroomGenerator:
         self.rng = random.Random(self.id)
         self.parts = {}
         self.part_generators = {
-            'stem': StemGenerator,
-            'growth_pattern': GrowthPatternGenerator,
-            'gills': GillsGenerator
+            "stem": StemGenerator,
+            "growth_pattern": GrowthPatternGenerator,
+            "gills": GillsGenerator,
         }
 
     def _set_id(self, id_int):
@@ -25,12 +25,14 @@ class MushroomGenerator:
         """Take a species attributes, generate the attributes of a new instance of that species"""
         # use parts_generator to call the generator class for each part
         for part, generator in self.part_generators.items():
-            self.parts[part] = generator(species_attributes[part], self.rng)()
+            gen = generator(species_attributes[part], self.rng)
+            gen.validate_attributes()
+            self.parts[part] = gen()
         return self.parts
 
 
 def gen_new_mushroom(spore=None, mushroom_id=None, output=True):
-    spore, species_attributes = gen_new_species(spore, output=False)
+    spore, species_attributes = gen_new_species(spore, output=True)
     mushroom_generator = MushroomGenerator(spore, mushroom_id)
     attributes = mushroom_generator.generate_new_mushroom(species_attributes)
     print(f"id {mushroom_generator.id}")

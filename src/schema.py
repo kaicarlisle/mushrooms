@@ -45,7 +45,7 @@ SCHEMA = {
             },
         },
         "?spore_ring": {
-            "probability": "0..1", 
+            "probability": "0..1",
             "height": {
                 "avg": "0..1",
                 "dsd": "0..:avg",
