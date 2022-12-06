@@ -2,7 +2,9 @@ import random
 
 from species_attributes_generator import SpeciesGenerator
 from individual_attributes_generators.stem_generator import StemGenerator
-from individual_attributes_generators.growth_pattern_generator import GrowthPatternGenerator
+from individual_attributes_generators.growth_pattern_generator import (
+    GrowthPatternGenerator,
+)
 from individual_attributes_generators.gills_generator import GillsGenerator
 
 
@@ -28,7 +30,7 @@ class MushroomGenerator:
     def generate_new_mushroom(self):
         """Take a species attributes, generate the attributes of a new instance of that species"""
         parts = {}
-        # use parts_generator to call the generator class for each part
+        # use parts_generators to call the generator class for each part
         for part, generator in self.part_generators.items():
             gen = generator(self.species_attributes[part], self.rng)
             gen.validate_attributes()

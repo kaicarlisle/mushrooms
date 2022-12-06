@@ -18,16 +18,16 @@ It's easier this way
 SCHEMA = {
     "stem": {
         "length": {
-            "avg": "0..#MAX_STEM_LENGTH_AVG",
+            "avg": "0..#STEM_LENGTH_AVG_MAX",
             "dsd": "0..:avg",
             "min": "0",
-            "max": "#MAX_STEM_LENGTH",
+            "max": "#STEM_LENGTH_MAX",
         },
         "thickness": {
-            "avg": "0..#MAX_STEM_THICKNESS_AVG",
+            "avg": "0..#STEM_THICKNESS_AVG_MAX",
             "dsd": "0..:avg",
             "min": "0",
-            "max": "#MAX_STEM_THICKNESS",
+            "max": "#STEM_THICKNESS_MAX",
         },
         "curviness": {
             "avg": "0..1",
@@ -58,14 +58,24 @@ SCHEMA = {
         "type": "[single, clump, cluster]",
         # all mushrooms from same base
         "type.clump": {
-            "avg_count": "1..#MAX_GROWTH_PATTERN_CLUMP_AVG_COUNT",
-            "dsd_count": "1..:avg_count",
+            "count": {
+                "avg": "1..#GROWTH_PATTERN_CLUMP_COUNT_AVG_MAX",
+                "dsd": "1..:avg",
+                "min": "1",
+                "max": "#GROWTH_PATTERN_CLUMP_COUNT_MAX",
+            },
         },
         # spread around
         "type.cluster": {
-            "avg_count": "1..#MAX_GROWTH_PATTERN_CLUSTER_AVG_COUNT",
-            "dsd_count": "1..:avg_count",
-            "avg_distance": "0.5..#MAX_GROWTH_PATTERN_CLUSTER_AVG_DISTANCE",
+            "count": {
+                "avg": "1..#GROWTH_PATTERN_CLUSTER_COUNT_AVG_MAX",
+                "dsd": "1..:avg",
+                "min": "2",
+                "max": "#GROWTH_PATTERN_CLUSTER_COUNT_MAX",
+            },
+            "distance": {
+                "avg_distance": "0.5..#GROWTH_PATTERN_CLUSTER_DISTANCE_AVG_MAX",
+            },
         },
     },
     "gills": {

@@ -26,8 +26,8 @@ class GillsGenerator(Generator):
         type_attrs = self.attrs["type.fans"]
         fans["attachment"] = type_attrs["attachment"]
         fans["density"] = type_attrs["density"]
-        fans["top_level_count"] = type_attrs["top_level_count"]
-        fans["levels"]["count"] = type_attrs["levels"]["count"]
+        fans["top_level_count"] = int(type_attrs["top_level_count"])
+        fans["levels"]["count"] = int(type_attrs["levels"]["count"])
         fans["levels"]["reduction_ratio"] = type_attrs["levels"]["reduction_ratio"]
         return fans
 

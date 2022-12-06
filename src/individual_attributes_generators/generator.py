@@ -5,9 +5,12 @@ class Generator:
     def _rng_uniform(self, lower, upper):
         return self.rng.random() * (upper - lower) + lower
 
+    def _unclamped_float_avg_std(self, key, avg="avg", std="dsd"):
+        return self.rng.normalvariate(key[avg], key[std] / 2)
+
     def _clamped_float_avg_std(self, key, avg="avg", std="dsd", min="min", max="max"):
         return self._clamp(
-            self.rng.normalvariate(key[avg], key[std] / 2), key[min], key[max]
+            self._unclamped_float_avg_std(key, avg, std), key[min], key[max]
         )
 
     def _rng_probability_check(self, key, probability="probability"):
