@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from parts_generators.generator import Generator
+from individual_attributes_generators.generator import Generator
 
 
 class GillsGenerator(Generator):

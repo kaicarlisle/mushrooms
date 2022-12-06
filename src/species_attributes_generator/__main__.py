@@ -1,12 +1,7 @@
 import random
-import json
 
-from schema import SCHEMA
+from species_attributes_generator.schema import SCHEMA
 from config import *
-
-
-def clean_name(name):
-    return name.lstrip("?")
 
 
 class SpeciesGenerator:
@@ -56,22 +51,9 @@ class SpeciesGenerator:
             if (
                 name.startswith("?") and bool(self.rng.getrandbits(1))
             ) or not name.startswith("?"):
-                cleaned_name = clean_name(name)
+                cleaned_name = name.lstrip("?")
                 if isinstance(attribute, dict):
                     attributes[cleaned_name] = self.generate_new_species(attribute)
                 else:
                     attributes[cleaned_name] = self._eval_string(attribute, attributes)
         return attributes
-
-
-def gen_new_species(spore=None, output=True):
-    species_generator = SpeciesGenerator(spore)
-    attributes = species_generator.generate_new_species()
-    print(f"spore {species_generator.spore}")
-    if output:
-        print(json.dumps(attributes, indent=4))
-    return species_generator.spore, attributes
-
-
-if __name__ == "__main__":
-    gen_new_species()

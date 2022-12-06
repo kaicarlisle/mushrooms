@@ -1,0 +1,1 @@
+from species_attributes_generator.__main__ import SpeciesGenerator

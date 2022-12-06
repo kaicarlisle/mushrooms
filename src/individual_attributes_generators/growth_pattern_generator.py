@@ -1,4 +1,4 @@
-from parts_generators.generator import Generator
+from individual_attributes_generators.generator import Generator
 
 
 class GrowthPatternGenerator(Generator):
